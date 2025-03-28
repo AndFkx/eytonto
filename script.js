@@ -86,53 +86,61 @@ document.getElementById("right").addEventListener("click", () => {
 });
 
     
-    function updateGame() {
-        if (!gameRunning) return;
+ function updateGame() {
+    if (!gameRunning) return;
 
+    // Evita cambios abruptos de dirección
+    if ((newDirection.x !== -direction.x || newDirection.y !== -direction.y)) {
         direction = newDirection;
-        if (direction.x === 0 && direction.y === 0) return;
-
-        let head = {
-            x: snake[0].x + direction.x * tileSize,
-            y: snake[0].y + direction.y * tileSize
-        };
-
-        if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height || snakeCollision(head)) {
-            gameOver();
-            return;
-        }
-
-        if (head.x === food.x && head.y === food.y) {
-            food = generateFood();
-            applesEaten++;
-            if (applesEaten > record) {
-                record = applesEaten;
-                localStorage.setItem("record", record);
-            }
-        } else {
-            snake.pop();
-        }
-
-        snake.unshift(head);
-        drawGame();
     }
 
-    function drawGame() {
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let head = {
+        x: snake[0].x + direction.x * tileSize,
+        y: snake[0].y + direction.y * tileSize
+    };
 
-        const appleSize = tileSize * 1.5;
-        ctx.drawImage(appleImage, food.x - (appleSize - tileSize) / 2, food.y - (appleSize - tileSize) / 2, appleSize, appleSize);
-
-        snake.forEach((segment, index) => {
-            ctx.fillStyle = index === 0 ? "yellow" : snakeColor;
-            ctx.fillRect(segment.x, segment.y, tileSize, tileSize);
-        });
-
-        ctx.fillStyle = "white";
-        ctx.font = "18px Arial";
-        ctx.fillText(`🍏: ${applesEaten}  🎯 Récord: ${record}`, 10, 20);
+    if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height || snakeCollision(head)) {
+        gameOver();
+        return;
     }
+
+    if (head.x === food.x && head.y === food.y) {
+        food = generateFood();
+        applesEaten++;
+        if (applesEaten > record) {
+            record = applesEaten;
+            localStorage.setItem("record", record);
+        }
+    } else {
+        snake.pop();
+    }
+
+    snake.unshift(head);
+    drawGame();
+}
+
+
+   function drawGame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Borra el lienzo antes de dibujar
+
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Dibujar manzana
+    const appleSize = tileSize * 1.5;
+    ctx.drawImage(appleImage, food.x, food.y, appleSize, appleSize);
+
+    // Dibujar serpiente
+    snake.forEach((segment, index) => {
+        ctx.fillStyle = index === 0 ? "yellow" : snakeColor;
+        ctx.fillRect(segment.x, segment.y, tileSize, tileSize);
+    });
+
+    // Mostrar puntaje
+    ctx.fillStyle = "white";
+    ctx.font = "18px Arial";
+    ctx.fillText(`🍏: ${applesEaten}  🎯 Récord: ${record}`, 10, 20);
+}
 
    function changeDirection(event) {
     const key = event.key.toLowerCase();
