@@ -14,16 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let bgColor = "#000000";
     let gameInterval = null; // Para evitar múltiples intervalos
 
-    cconst appleImage = new Image();
-appleImage.src = "amnzana.png";
-
-appleImage.onload = function () {
-    console.log("Imagen de la manzana cargada correctamente.");
-};
-appleImage.onerror = function () {
-    console.error("Error al cargar la imagen de la manzana.");
-};
-
+    const appleImage = new Image();
+    appleImage.src = "amnzana.png";
 
     const tileSize = 20;
     const canvasSize = Math.min(window.innerWidth * 0.9, 400);
@@ -59,8 +51,7 @@ appleImage.onerror = function () {
     });
 
    function startGame() {
-canvas.style.visibility = "visible"; // En vez de display
-
+    canvas.style.display = "block";
     controls.style.display = "flex";
     gameRunning = true;
     snake = [{ x: tileSize * 5, y: tileSize * 5 }];
@@ -143,23 +134,22 @@ document.getElementById("right").addEventListener("click", () => {
         ctx.fillText(`🍏: ${applesEaten}  🎯 Récord: ${record}`, 10, 20);
     }
 
-  function changeDirection(event) {
+   function changeDirection(event) {
     const key = event.key.toLowerCase();
-
-    if ((key === "arrowup" || key === "w") && direction.y === 0 && newDirection.y === 0) {
+    
+    if ((key === "arrowup" || key === "w") && direction.y === 0) {
         newDirection = { x: 0, y: -1 };
     }
-    if ((key === "arrowdown" || key === "s") && direction.y === 0 && newDirection.y === 0) {
+    if ((key === "arrowdown" || key === "s") && direction.y === 0) {
         newDirection = { x: 0, y: 1 };
     }
-    if ((key === "arrowleft" || key === "a") && direction.x === 0 && newDirection.x === 0) {
+    if ((key === "arrowleft" || key === "a") && direction.x === 0) {
         newDirection = { x: -1, y: 0 };
     }
-    if ((key === "arrowright" || key === "d") && direction.x === 0 && newDirection.x === 0) {
+    if ((key === "arrowright" || key === "d") && direction.x === 0) {
         newDirection = { x: 1, y: 0 };
     }
 }
-
 
     function generateFood() {
         return {
