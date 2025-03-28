@@ -51,7 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
    function startGame() {
-    canvas.style.display = "block";
+canvas.style.visibility = "visible"; // En vez de display
+
     controls.style.display = "flex";
     gameRunning = true;
     snake = [{ x: tileSize * 5, y: tileSize * 5 }];
@@ -134,22 +135,23 @@ document.getElementById("right").addEventListener("click", () => {
         ctx.fillText(`🍏: ${applesEaten}  🎯 Récord: ${record}`, 10, 20);
     }
 
-   function changeDirection(event) {
+  function changeDirection(event) {
     const key = event.key.toLowerCase();
-    
-    if ((key === "arrowup" || key === "w") && direction.y === 0) {
+
+    if ((key === "arrowup" || key === "w") && direction.y === 0 && newDirection.y === 0) {
         newDirection = { x: 0, y: -1 };
     }
-    if ((key === "arrowdown" || key === "s") && direction.y === 0) {
+    if ((key === "arrowdown" || key === "s") && direction.y === 0 && newDirection.y === 0) {
         newDirection = { x: 0, y: 1 };
     }
-    if ((key === "arrowleft" || key === "a") && direction.x === 0) {
+    if ((key === "arrowleft" || key === "a") && direction.x === 0 && newDirection.x === 0) {
         newDirection = { x: -1, y: 0 };
     }
-    if ((key === "arrowright" || key === "d") && direction.x === 0) {
+    if ((key === "arrowright" || key === "d") && direction.x === 0 && newDirection.x === 0) {
         newDirection = { x: 1, y: 0 };
     }
 }
+
 
     function generateFood() {
         return {
