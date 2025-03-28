@@ -14,8 +14,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let bgColor = "#000000";
     let gameInterval = null; // Para evitar múltiples intervalos
 
-    const appleImage = new Image();
-    appleImage.src = "amnzana.png";
+    cconst appleImage = new Image();
+appleImage.src = "amnzana.png";
+
+appleImage.onload = function () {
+    console.log("Imagen de la manzana cargada correctamente.");
+};
+appleImage.onerror = function () {
+    console.error("Error al cargar la imagen de la manzana.");
+};
+
 
     const tileSize = 20;
     const canvasSize = Math.min(window.innerWidth * 0.9, 400);
